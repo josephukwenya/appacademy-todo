@@ -31,15 +31,15 @@ code {
 }
 
 .App {
+  margin-top: 60px;
   padding: 32px;
 }
 
-/* UTILITY CLASSES */
-
-.error {
+.Hero {
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  align-items: center;
+  height: 100vh;
 }
 
 .todo {
@@ -185,13 +185,6 @@ input[type="text"] {
 
 .button:hover {
   background-color: rgb(199, 84, 84);
-}
-
-.form-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 768px) {

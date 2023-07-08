@@ -1,3 +1,8 @@
-const auth = JSON.parse(localStorage.getItem("todoApp"));
+// Auth
+export const auth = JSON.parse(localStorage.getItem("todoApp"));
 
-export default auth;
+// Logout function
+export function handleLogOut() {
+  localStorage.removeItem("todoApp");
+  window.location.replace("/login");
+}

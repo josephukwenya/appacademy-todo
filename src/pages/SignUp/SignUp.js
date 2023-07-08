@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Form, Button } from "react-bootstrap";
-import { API_BASE } from "../utils/constant";
-import Loader from "../components/Loader/Loader";
+import Logo from "../../components/Logo/AppLogo";
+import { Form, Button, Alert } from "react-bootstrap";
+import { API_BASE } from "../../utils/constant";
+import Loader from "../../components/Loader/Loader";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
@@ -40,56 +41,69 @@ const SignUp = () => {
   };
 
   return (
-    <div className="container">
+    <div className="Hero">
       <Form onSubmit={handleSubmit}>
-        <h1 className="mt-5 pt-5 mb-3 text-center">Please Sign Up</h1>
+        <Logo />
+        {error ? (
+          <Alert className="alert alert-danger mt-2 mb-3 text-center p-3">
+            Something went wrong...
+          </Alert>
+        ) : null}
         <Form.Group controlId="register">
           <Form.Label>Full Name:</Form.Label>
           <Form.Control
             type="text"
             value={fullname}
-            placeholder="Full name"
+            className="bg-light"
+            isInvalid={error && !fullname.trim()}
             onChange={(e) => setFullName(e.target.value)}
-            required
           />
+        </Form.Group>
+        <Form.Group controlId="login">
           <Form.Label>Email:</Form.Label>
           <Form.Control
             type="email"
             value={email}
-            placeholder="Email address..."
+            className="bg-light"
+            isInvalid={error && !email.trim()}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
+
           <Form.Label>Password:</Form.Label>
           <Form.Control
             type="password"
             value={password}
-            placeholder="Password ************"
+            className="bg-light"
+            isInvalid={error && !password.trim()}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
+          {error && (
+            <Form.Control.Feedback type="invalid">
+              Field are required and cannot be empty
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
-        <Button
-          variant="primary btn-lg mt-3 mt-3 btn-primary d-grid gap-2 col-6 mx-auto btn-lg"
-          onClick={validateBtn}
-          type="submit">
-          Submit
-        </Button>
-        <Link to={"/login"}>
-          <span className="mt-4">Log In</span>
-        </Link>
-        {isLoading ? <Loader /> : null}
-        {validator ? (
-          <span className="error bg-danger mt-3 rounded-3 p-3 text-light">
-            Fields cannot be empty
-          </span>
-        ) : null}
+
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Button
+            variant="danger btn-lg"
+            type="submit"
+            onClick={validateBtn}
+            className="mt-3 d-grid gap-2 col-6 mx-auto w-100">
+            Sign Up
+          </Button>
+        )}
+        <br />
+        <span className="mt-4">Already have an account? Log In here </span>
+
+        <Link to={"/login"}>Log In</Link>
+
+        {validator && (
+          <Form.Control.Feedback>Fields cannot be empty</Form.Control.Feedback>
+        )}
       </Form>
-      {error && (
-        <span className="error bg-danger mt-5 rounded-3 p-3 text-light">
-          Something went wrong...
-        </span>
-      )}
     </div>
   );
 };

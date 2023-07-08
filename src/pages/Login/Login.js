@@ -1,9 +1,9 @@
-// eslint-disable-next-line
 import React, { useState } from "react";
 import axios from "axios";
-import { Form, Button } from "react-bootstrap";
-import { API_BASE } from "../utils/constant";
-import Loader from "../components/Loader/Loader";
+import Logo from "../../components/Logo/AppLogo";
+import { Form, Button, Alert } from "react-bootstrap";
+import { API_BASE } from "../../utils/constant";
+import Loader from "../../components/Loader/Loader";
 import { Link } from "react-router-dom";
 
 const Login = () => {
@@ -26,7 +26,6 @@ const Login = () => {
         "todoApp",
         JSON.stringify({
           token: res.data.token,
-          email: res.data.fullname,
         })
       );
 
@@ -47,51 +46,59 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1 className="mt-5 pt-5 mb-3 text-center">Please Login In</h1>
+    <div className="Hero">
       <Form onSubmit={handleSubmit}>
+        <Logo />
+        {error ? (
+          <Alert className="alert alert-danger mt-2 mb-3 text-center p-3">
+            Something went wrong...
+          </Alert>
+        ) : null}
         <Form.Group controlId="login">
-          <Form.Label>Email:</Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
             value={email}
-            placeholder="Email address..."
+            className="bg-light"
+            isInvalid={error && !email.trim()}
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <Form.Label>Password:</Form.Label>
+          <Form.Label>Password</Form.Label>
           <Form.Control
+            className="bg-light"
             type="password"
             value={password}
-            placeholder="Password ********"
+            isInvalid={error && !password.trim()}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {error && (
+            <Form.Control.Feedback type="invalid">
+              Field are required and cannot be empty
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
 
-        <Button
-          variant="primary"
-          type="submit"
-          onClick={validateBtn}
-          className="mt-3 btn-primary d-grid gap-2 col-6 mx-auto btn-lg">
-          Log In
-        </Button>
-
-        <span className="mt-4">Create an account?</span>
-
-        <Link to={"/signup"}>Sign Up</Link>
-        {isLoading ? <Loader /> : null}
-        {validator ? (
-          <span className="error bg-danger mt-3 rounded-3 p-3 text-light">
-            Fields cannot be empty
-          </span>
-        ) : null}
-      </Form>
-
-      {error && (
-        <span className="error bg-danger mt-3 rounded-3 p-3 text-light">
-          Something went wrong...
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Button
+            variant="danger btn-lg"
+            type="submit"
+            onClick={validateBtn}
+            className="mt-3 d-grid gap-2 col-6 mx-auto w-100">
+            Log In
+          </Button>
+        )}
+        <br />
+        <span className="d-flex justify-content-center align-items-center">
+          Create an account? <Link to={"/signup"}> Sign Up</Link>
         </span>
-      )}
+
+        {validator && (
+          <Form.Control.Feedback>Fields cannot be empty</Form.Control.Feedback>
+        )}
+      </Form>
     </div>
   );
 };
