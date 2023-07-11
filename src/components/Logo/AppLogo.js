@@ -1,14 +1,14 @@
-import React from "react";
-import Img from "../../assets/logo-full-red.svg";
+import React from 'react';
+import Img from '../../assets/logo-full-red.svg';
 
 const AaLogo = () => {
   return (
     <div>
       <img
         width={400}
-        className="mt-5 mb-2 fixed"
+        className='mt-5 mb-2 aa fixed'
         src={Img}
-        alt="App Academy Logo"
+        alt='App Academy Logo'
       />
     </div>
   );
